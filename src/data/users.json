@@ -1,0 +1,37 @@
+[
+  {
+    "_id": {
+      "$oid": "65d4bd3f2fdbf84a88a7f75d"
+    },
+    "email": "tony@stark.com",
+    "password": "$2b$12$DmkNiQNCC.Fr9m9e7xP2JO/7piETqC1KjNBJ7TurQxbFzu15zfbZa",
+    "firstName": "Tony",
+    "lastName": "Stark",
+    "userName": "Iron",
+    "createdAt": {
+      "$date": "2024-02-20T14:54:55.046Z"
+    },
+    "updatedAt": {
+      "$date": "2024-02-20T14:54:55.046Z"
+    },
+    "__v": 0
+  },
+
+  {
+    "_id": {
+      "$oid": "65d4bd3f2fdbf84a88a7f75e"
+    },
+    "email": "steve@rogers.com",
+    "password": "$2b$12$T54doKayoUzr03uoJbX/Le530AW4/XPkLoywxJnG3ji.7.UkT6XTC",
+    "firstName": "Steve",
+    "lastName": "Rogers",
+    "userName": null,
+    "createdAt": {
+      "$date": "2024-02-20T14:54:55.052Z"
+    },
+    "updatedAt": {
+      "$date": "2024-02-29T16:51:45.697Z"
+    },
+    "__v": 0
+  }
+]

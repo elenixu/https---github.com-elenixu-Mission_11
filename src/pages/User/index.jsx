@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Bankinfo from '../../components/Bankinfo'
 import { useSelector } from 'react-redux'
-
 import '../../Styles/app.css'
+import Names from '../../components/Names'
 
-function User(userOld) {
+function User() {
   const userName = useSelector((state) => state.user)
+  const [showNames, setShowNames] = useState(false)
+
+  const toggleNames = () => {
+    setShowNames(!showNames)
+  }
 
   return (
     <div className="user-container">
@@ -14,9 +19,17 @@ function User(userOld) {
           <h1>
             Welcome back
             <br />
-            {userName.firstname + ' ' + userName.lastname}
+            {!showNames && userName.firstname + ' ' + userName.lastname}
           </h1>
-          <button className="edit-button">Edit Name</button>
+
+          {!showNames && (
+            <button className="edit-button" onClick={toggleNames}>
+              Edit Name
+            </button>
+          )}
+          {showNames && (
+            <Names showNames={showNames} setShowNames={setShowNames} />
+          )}
         </div>
         <h2 className="sr-only">Accounts</h2>
         <div>

@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
+import store from '../../redux/store'
+import { userSlice } from '../../reducers/user/userSlice'
+import usersJson from '../../data/users.json'
 
 import '../../Styles/app.css'
 
@@ -31,10 +34,30 @@ function Signinform() {
       }
 
       const data = await response.json()
-      const { token } = data
+
+      console.log('data' + data)
+
+      console.dir(data)
+
+      const token = data.body.token
+
+      console.log('token' + token)
 
       // Store the token in localStorage
-      localStorage.setItem('token', token)
+      //localStorage.setItem('token', token)
+
+      usersJson.forEach((user) => {
+        if (user.email === username) {
+          // Dispatch action to set user data
+          store.dispatch(
+            userSlice.actions.setUser({
+              firstname: user.firstName,
+              lastname: user.lastName,
+              token: token,
+            })
+          )
+        }
+      })
 
       // Redirect to the User page
       console.log(token)
