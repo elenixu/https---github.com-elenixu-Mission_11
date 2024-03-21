@@ -19,7 +19,9 @@ function User() {
           <h1>
             Welcome back
             <br />
-            {!showNames && userName.firstname + ' ' + userName.lastname}
+            {!showNames &&
+              userName &&
+              userName.firstname + ' ' + userName.lastname}
           </h1>
 
           {!showNames && (

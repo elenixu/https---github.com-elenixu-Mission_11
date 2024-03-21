@@ -12,8 +12,8 @@ function Names(props) {
     var firstName = document.getElementById('first-name')
     var lastName = document.getElementById('last-name')
 
-    firstName.value = userNameOld.firstname
-    lastName.value = userNameOld.lastname
+    firstName.value = userNameOld ? userNameOld.firstname : ''
+    lastName.value = userNameOld ? userNameOld.lastname : ''
   })
 
   const cancel = () => {
@@ -37,19 +37,18 @@ function Names(props) {
       // Call the API POST to update the database
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/user/signup',
+          'http://localhost:3001/api/v1/user/profile',
           {
-            method: 'POST',
+            method: 'PUT',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + userNameOld.token,
             },
             body: JSON.stringify({
-              firstname: firstNameNew.value,
-              lastname: lastNameNew.value,
+              userName: firstNameNew.value + ' ' + lastNameNew.value,
             }),
           }
         )
-
         if (!response.ok) {
           throw new Error('Error: Could not edit name!')
         }
@@ -61,6 +60,7 @@ function Names(props) {
     } else {
       alert('the firstname or lastname is empty')
     }
+    props.setShowNames(false)
   }
 
   return (

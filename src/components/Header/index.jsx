@@ -15,7 +15,7 @@ import '../../Styles/app.css'
 function Header() {
   const user = useSelector((state) => state.user)
 
-  console.log('token : ' + user.token)
+  //console.log('token : ' + user.token)
 
   const signOut = () => {
     //Reinitialize the user in the store
@@ -39,14 +39,14 @@ function Header() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {!user.token && (
+        {(!user || !user.token) && (
           <Link className="main-nav-item" to="/Signin">
             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
             Sign In
           </Link>
         )}
 
-        {user.token && (
+        {user && user.token && (
           <Link onClick={signOut} className="main-nav-item" to="/">
             <FontAwesomeIcon icon={faUserCircle}></FontAwesomeIcon>
             {user.firstname + '  '}

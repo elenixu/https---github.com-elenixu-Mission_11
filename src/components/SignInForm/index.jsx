@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 import store from '../../redux/store'
 import { userSlice } from '../../reducers/user/userSlice'
-import usersJson from '../../data/users.json'
 
 import '../../Styles/app.css'
 
@@ -31,37 +30,42 @@ function Signinform() {
 
       if (!response.ok) {
         throw new Error('Error: User not found!')
+      } else {
+        const data = await response.json()
+        const token = data.body.token
+
+        //console.log('token' + token)
+
+        fetch('http://localhost:3001/api/v1/user/profile', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Bearer ' + token,
+          },
+        })
+          .then((promise) => promise.json())
+          .then((responseJson) => responseJson.body)
+          .then((user) => {
+            if (user.email === username) {
+              // Dispatch action to set user data
+              store.dispatch(
+                userSlice.actions.setUser({
+                  // firstname: user.firstName,
+                  // lastname: user.lastName, commented because firstName and lastName cannot be updated so will try with username
+
+                  firstname: user.userName.split(' ').slice(0, 1),
+                  lastname: user.userName.split(' ').slice(1, 2),
+                  token: token,
+                })
+              )
+            }
+          })
+          .catch((error) => console.error(error))
+
+        // Redirect to the User page
+        console.log(token)
+        navigation('/User')
       }
-
-      const data = await response.json()
-
-      console.log('data' + data)
-
-      console.dir(data)
-
-      const token = data.body.token
-
-      console.log('token' + token)
-
-      // Store the token in localStorage
-      //localStorage.setItem('token', token)
-
-      usersJson.forEach((user) => {
-        if (user.email === username) {
-          // Dispatch action to set user data
-          store.dispatch(
-            userSlice.actions.setUser({
-              firstname: user.firstName,
-              lastname: user.lastName,
-              token: token,
-            })
-          )
-        }
-      })
-
-      // Redirect to the User page
-      console.log(token)
-      navigation('/User')
     } catch (error) {
       setError(error.message)
     }
@@ -89,7 +93,6 @@ function Signinform() {
           <button className="sign-in-button" type="submit">
             Sign In
           </button>{' '}
-          {/* Remove Link */}
         </form>
       </section>
     </div>
